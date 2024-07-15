@@ -1,15 +1,13 @@
-var storyBoard = document.getElementById("storyBoard");
-var asa = document.getElementById("asa");
-var iwant = document.getElementById("iwant");
-var sothat = document.getElementById("sothat");
+const storyBoard = document.getElementById("storyBoard");
 
-document.getElementById("submit").click();
-
-function click()
+function append()
 {
-    var story = new document.createElement("div");
-    story.innerHTML = asa + ", " + iwant + ", " + sothat;
+    const story = document.createElement("div");
+    let asa = document.getElementById("asa").value;
+    let iwant = document.getElementById("iwant").value;
+    let sothat = document.getElementById("sothat").value;
 
-    storyBoard.appendChild(story)
+    story.textContent = "As a " + asa + ", I want " + iwant + ", so that" + sothat;
+    storyBoard.appendChild(story);
 }
 

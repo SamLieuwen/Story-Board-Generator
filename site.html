@@ -8,10 +8,8 @@
     <title>Document</title>
 </head>
 <body>
-    <div>
-        <h1>Story Board Generator</h1>
-    </div>
-    <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
+    <div><h1>Story Board Generator</h1></div>
+    <form onsubmit="append()">
         <label for="asa">As a:</label>
         <input type="text" id="asa"><br><br>
 
@@ -23,7 +21,6 @@
 
         <input type="submit" id="submit" value="Submit"><br><br>
     </form>
-    <div class="flex-container" id="storyBoard">
-    </div>
+    <div class="flex-container" id="storyBoard"></div>
 </body>
 </html>

@@ -1,10 +1,11 @@
 .flex-container {
     display: flex;
-    background-color: dodgerblue;
+    flex-wrap: wrap;
+    background-color: gainsboro;
 }
 
 .flex-container > div {
-    margin: 10px;
+    margin: 20px;
     padding: 150px;
     font-size: 30px;
     background-color: white;
