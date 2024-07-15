@@ -3,27 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <script src="scripts.js"></script>
+    <link rel="stylesheet" href='style.css'>
+    <script src='scripts.js'></script>
     <title>Document</title>
 </head>
 <body>
     <div>
         <h1>Story Board Generator</h1>
     </div>
-    <form action="/generate.php" method="POST">
+    <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
         <label for="asa">As a:</label>
-        <input type="text" id="asa" name="asa"><br><br>
+        <input type="text" id="asa"><br><br>
 
         <label for="iwant">I want:</label>
-        <input type="text" id="iwant" name="iwant"><br><br>
+        <input type="text" id="iwant"><br><br>
 
         <label for="asa">So that:</label>
-        <input type="text" id="sothat" name="sothat"><br><br>
+        <input type="text" id="sothat"><br><br>
 
-        <input type="submit" value="Submit"><br><br>
+        <input type="submit" id="submit" value="Submit"><br><br>
     </form>
-    <div class="flex-container">
+    <div class="flex-container" id="storyBoard">
     </div>
 </body>
 </html>
