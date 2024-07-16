@@ -11,6 +11,6 @@ function append(e)
     let text = document.createTextNode("As a " + asa + ", I want " + iwant + ", so that" + sothat);
     
     story.appendChild(text);
-    storyBoard.appendChild(story);
+    storyBoard.prepend(story);
 }
 
