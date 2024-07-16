@@ -8,8 +8,20 @@
     <title>Document</title>
 </head>
 <body>
-    <div><h1>Story Board Generator</h1></div>
-    <form onsubmit="append()">
+    <div> <h1>Story Board Generator</h1> </div>
+    <!-- <form>
+        <label for="asa">As a:</label>
+        <input type="text" id="asa"><br><br>
+
+        <label for="iwant">I want:</label>
+        <input type="text" id="iwant"><br><br>
+
+        <label for="asa">So that:</label>
+        <input type="text" id="sothat"><br><br>
+
+        <input type="button" id="submit" value="Submit" onclick="append()"><br><br>
+    </form> -->
+    <form onsubmit="append(event)">
         <label for="asa">As a:</label>
         <input type="text" id="asa"><br><br>
 

@@ -1,15 +1,16 @@
-function append()
+function append(e)
 {
+    e.preventDefault();
+    
     const storyBoard = document.getElementById("storyBoard");
     const story = document.createElement("div");
     
     let asa = document.getElementById("asa").value;
     let iwant = document.getElementById("iwant").value;
     let sothat = document.getElementById("sothat").value;
-
-    alert(textnode);
-
-    story.appendChild(textnode);
+    let text = document.createTextNode("As a " + asa + ", I want " + iwant + ", so that" + sothat);
+    
+    story.appendChild(text);
     storyBoard.appendChild(story);
 }
 
