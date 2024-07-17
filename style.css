@@ -1,13 +1,16 @@
 .flex-container {
     display: flex;
     flex-wrap: wrap;
-    /* justify-content: center; */
     background-color: gainsboro;
 }
-
 .flex-container > div {
     margin: 20px;
-    padding: 150px;
-    font-size: 30px;
+    padding: 50px;
+    font-size: 20px;
     background-color: white;
+}
+
+textarea {
+    resize: none;
+    width: 200px;
 }
