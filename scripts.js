@@ -21,7 +21,7 @@ function append(e)
     story.innerHTML += "<p>Criteria: <br>" + acceptanceCriteria + "</p>";
     story.innerHTML += "<p>Notes: <br>" + notes + "</p>";
     story.innerHTML += `<input type="button" value="Copy" onclick="copy('${story.innerText}')"> `
-    
+
     storyBoard.prepend(story);
 }
 

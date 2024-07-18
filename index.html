@@ -10,23 +10,34 @@
 <body>
     <div> <h1>User Story Generator</h1> </div>
     <form onsubmit="append(event)">
-        <label for="asa">As a:</label><br>
-        <textarea id="asa"></textarea><br><br>
-
-        <label for="iwant">I want:</label><br>
-        <textarea id="iwant"></textarea><br><br>
-
-        <label for="sothat">So that:</label><br>
-        <textarea id="sothat"></textarea><br><br>
-
-        <label for="acceptancecriteria">Acceptance Criteria:</label><br>
-        <textarea id="acceptancecriteria"></textarea><br><br>
-
-        <label for="notes">Notes:</label><br>
-        <textarea id="notes"></textarea><br><br>
-
+        <table>
+            <tr>
+                <td>
+                    <label for="asa">As a:</label><br>
+                    <textarea id="asa"></textarea><br><br>
+                </td>
+                <td>
+                    <label for="iwant">I want:</label><br>
+                    <textarea id="iwant"></textarea><br><br>
+                </td>
+                <td>
+                    <label for="sothat">So that:</label><br>
+                    <textarea id="sothat"></textarea><br><br>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="acceptancecriteria">Acceptance Criteria:</label><br>
+                    <textarea id="acceptancecriteria"></textarea><br><br>
+                </td>
+                <td>
+                    <label for="notes">Notes:</label><br>
+                    <textarea id="notes"></textarea><br><br>
+                </td>
+            </tr>
+        </table>
         <input type="submit" id="submit" value="Submit"><br><br>
     </form>
-    <div class="flex-container" id="storyBoard"></div>
+    <div class="story-board" id="storyBoard"></div>
 </body>
 </html>

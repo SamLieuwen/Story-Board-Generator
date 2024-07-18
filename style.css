@@ -1,16 +1,19 @@
-.flex-container {
+.story-board {
     display: flex;
     flex-wrap: wrap;
     background-color: gainsboro;
 }
-.flex-container > div {
+.story-board > div {
     margin: 20px;
     padding: 50px;
     font-size: 20px;
+    white-space: pre-wrap;
     background-color: white;
 }
 
 textarea {
     resize: none;
-    width: 200px;
+    width: 300px;
+    height: 75px;
+    white-space: pre;
 }
