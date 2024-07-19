@@ -17,15 +17,19 @@ function append(e)
     let acceptanceCriteria = document.getElementById("acceptancecriteria").value;
     let notes = document.getElementById("notes").value;
 
-    story.innerHTML = "<p>As a " + asa + ", I want " + iwant + ", so that " + sothat + ".</p>";
-    story.innerHTML += "<p>Criteria: <br>" + acceptanceCriteria + "</p>";
-    story.innerHTML += "<p>Notes: <br>" + notes + "</p>";
-    story.innerHTML += `<input type="button" value="Copy" onclick="copy('${story.innerText}')"> `
+    story.innerText = "As a " + asa + ", I want " + iwant + ", so that " + sothat + ".\n\nCriteria: \n" + acceptanceCriteria + "\n\nNotes: \n" + notes + "\n\n";
+    story.innerHTML += `<input type="button" value="Copy" onclick="copy('${story.innerHTML}')"> `
 
     storyBoard.prepend(story);
 }
 
 function copy(story)
 {
-    navigator.clipboard.writeText(story);
+    let temp = document.createElement("div");
+    temp.innerHTML += story;
+    document.body.append(temp);
+    const text = temp.innerText;
+    temp.remove();
+
+    navigator.clipboard.writeText(text);
 }
