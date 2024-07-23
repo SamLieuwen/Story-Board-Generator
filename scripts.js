@@ -38,6 +38,37 @@ function append(e)
     }
 }
 
+function checkChange(story)
+{
+    const currentTemp = document.createElement("div");
+    currentTemp.setAttribute("id", `story-${i}`);
+    
+    currentTemp.innerHTML += story;
+    document.body.append(currentTemp);
+    document.body.append(checkDefault);
+    
+    const current = currentTemp.innerText;
+
+    for (let j = i - 1; j >= 0; j--)
+    {   
+        const storyPath = document.getElementById(`story-${j}`);
+        const previousTemp = document.createElement("div");
+        
+        previousTemp.innerHTML = storyPath.innerHTML;
+        document.body.append(previousTemp);
+
+        const previousStory = previousTemp.innerText;
+        previousTemp.remove();
+
+        if (current != previousStory)
+        { hasChanged = true; }
+        else { break; }
+    }
+
+    currentTemp.remove();
+    checkDefault.remove();
+}
+
 function copy(story)
 {
     let temp = document.createElement("div");
@@ -49,34 +80,11 @@ function copy(story)
     navigator.clipboard.writeText(text);
 }
 
-function checkChange(story)
-{
-    const temp = document.createElement("div");
-    temp.setAttribute("id", `story-${i}`);
-    temp.innerHTML += story;
-    document.body.append(temp);
-    const current = temp.innerText;
-
-    document.body.append(checkDefault);
-
-    console.log(current);
-
-    for (let j = i - 1; j >= 0; j--)
-    {   
-        const storyPath = document.getElementById(`story-${j}`);
-        const temp = document.createElement("div");
-        temp.innerHTML = storyPath.innerHTML;
-        document.body.append(temp);
-        const previousStory = temp.innerText;
-        temp.remove();
-    
-        console.log(previousStory + j);
-
-        if (current != previousStory)
-        { hasChanged = true; }
-        else { break; }
-    }
-
-    temp.remove();
-    checkDefault.remove();
+function clear()
+{   
+    document.getElementById("asa").value = "";
+    document.getElementById("iwant").value = "";
+    document.getElementById("sothat").value = "";
+    document.getElementById("acceptancecriteria").value = "";
+    document.getElementById("notes").value = "";
 }

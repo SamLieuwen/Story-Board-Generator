@@ -9,7 +9,7 @@
 </head>
 <body>
     <div> <h1>User Story Generator</h1> </div>
-    <form onsubmit="append(event)">
+    <form>
         <table>
             <tr>
                 <td>
@@ -36,7 +36,7 @@
                 </td>
             </tr>
         </table>
-        <input type="submit" id="submit" value="Submit">
+        <input type="submit" value="Submit" onclick="append(event)">
         <input type="button" value="Clear" onclick="clear()"><br><br>
     </form>
     <div class="story-board" id="storyBoard"></div>
