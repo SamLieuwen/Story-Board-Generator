@@ -80,8 +80,10 @@ function copy(story)
     navigator.clipboard.writeText(text);
 }
 
-function clear()
+function clear(e)
 {   
+    e.preventDefault();
+
     document.getElementById("asa").value = "";
     document.getElementById("iwant").value = "";
     document.getElementById("sothat").value = "";
