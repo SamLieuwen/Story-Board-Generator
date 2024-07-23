@@ -13,14 +13,14 @@ function append(e)
     hasChanged = false;
     
     const storyBoard = document.getElementById("storyBoard");
-    let story = document.createElement("div");
+    const story = document.createElement("div");
     story.setAttribute("id", `story-${i}`);
     
-    let asa = document.getElementById("asa").value;
-    let iwant = document.getElementById("iwant").value;
-    let sothat = document.getElementById("sothat").value;
-    let acceptanceCriteria = document.getElementById("acceptancecriteria").value;
-    let notes = document.getElementById("notes").value;
+    const asa = document.getElementById("asa").value;
+    const iwant = document.getElementById("iwant").value;
+    const sothat = document.getElementById("sothat").value;
+    const acceptanceCriteria = document.getElementById("acceptancecriteria").value;
+    const notes = document.getElementById("notes").value;
 
     story.innerText = "As a " + asa + ", I want " + iwant + ", so that " + sothat + ".\n\nCriteria: \n" + acceptanceCriteria + "\n\nNotes: \n" + notes + "\n\n";
     story.innerHTML += `<input type="button" value="Copy" onclick="copy('${story.innerHTML}')"> `
@@ -63,8 +63,13 @@ function checkChange(story)
 
     for (let j = i - 1; j >= 0; j--)
     {   
-        const previousStory = document.getElementById(`story-${j}`).innerText;
-        
+        const storyPath = document.getElementById(`story-${j}`);
+        const temp = document.createElement("div");
+        temp.innerHTML = storyPath.innerHTML;
+        document.body.append(temp);
+        const previousStory = temp.innerText;
+        temp.remove();
+    
         console.log(previousStory + j);
 
         if (current != previousStory)
