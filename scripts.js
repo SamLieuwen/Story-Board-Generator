@@ -80,13 +80,9 @@ function copy(story)
     navigator.clipboard.writeText(text);
 }
 
-function clear(e)
+function clearTextArea(e)
 {   
     e.preventDefault();
 
-    document.getElementById("asa").value = "";
-    document.getElementById("iwant").value = "";
-    document.getElementById("sothat").value = "";
-    document.getElementById("acceptancecriteria").value = "";
-    document.getElementById("notes").value = "";
+    document.getElementById("form").reset();
 }
