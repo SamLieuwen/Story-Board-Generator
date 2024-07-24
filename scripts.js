@@ -84,7 +84,7 @@ function copy(story)
     navigator.clipboard.writeText(text);
 }
 
-function clearTextArea(e)
+function clearTextarea(e)
 {   
     e.preventDefault();
 
