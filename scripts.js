@@ -4,14 +4,13 @@ let hasChanged;
 
 const checkDefault = document.createElement("div");
 checkDefault.setAttribute("id", `story-${0}`);
-checkDefault.innerText += "As a , I want , so that .\n\nCriteria: \n\n\nNotes: \n\n\n";
+checkDefault.innerText = formatAMPM() + "\n\nAs a , I want , so that .\n\nCriteria: \n\n\nNotes: \n\n\n";
 
 function append(e)
 {
     e.preventDefault();
 
     i += 1;
-    hasChanged = false;
 
     const storyBoard = document.getElementById("storyBoard");
     const story = document.createElement("div");
@@ -23,18 +22,13 @@ function append(e)
     const acceptanceCriteria = document.getElementById("acceptancecriteria").value;
     const notes = document.getElementById("notes").value;
 
-    let h = today.getHours();
-    let m = today.getMinutes();
-    m = checkTime(m);
+    story.innerText = formatAMPM() + "\n\nAs a " + asa + ", I want " + iwant + ", so that " + sothat + ".\n\nCriteria: \n" + acceptanceCriteria + "\n\nNotes: \n" + notes + "\n\n";
+    story.innerHTML += `<input type="button" value="Copy" onclick="copy('${story.innerHTML}')"> `
 
-    story.innerText = "As a " + asa + ", I want " + iwant + ", so that " + sothat + ".\n\nCriteria: \n" + acceptanceCriteria + "\n\nNotes: \n" + notes + "\n\n";
-    
     checkChange(story.innerHTML);
     
     if (hasChanged == true)
     {
-        story.innerText = h + ":" + m + "\n\nAs a " + asa + ", I want " + iwant + ", so that " + sothat + ".\n\nCriteria: \n" + acceptanceCriteria + "\n\nNotes: \n" + notes + "\n\n";
-        story.innerHTML += `<input type="button" value="Copy" onclick="copy('${story.innerHTML}')"> `
         storyBoard.prepend(story);   
     }
     else
@@ -53,7 +47,9 @@ function checkChange(story)
     document.body.append(currentTemp);
     document.body.append(checkDefault);
     
-    const current = currentTemp.innerText;
+    const current = currentTemp.innerText.substring(formatAMPM().length + 2);
+
+    console.log(current);
 
     for (let j = i - 1; j >= 0; j--)
     {   
@@ -63,12 +59,14 @@ function checkChange(story)
         previousTemp.innerHTML = storyPath.innerHTML;
         document.body.append(previousTemp);
 
-        const previousStory = previousTemp.innerText;
+        const previousStory = previousTemp.innerText.substring(formatAMPM().length + 2);
         previousTemp.remove();
+
+        console.log(previousStory);
 
         if (current != previousStory)
         { hasChanged = true; }
-        else { break; }
+        else { hasChanged = false; break; }
     }
 
     currentTemp.remove();
@@ -90,17 +88,28 @@ function clearTextArea(e)
 {   
     e.preventDefault();
 
-    document.getElementById("form").reset();
+    document.getElementById("asa").value = "";
+    document.getElementById("iwant").value = "";
+    document.getElementById("sothat").value = "";
+    document.getElementById("acceptancecriteria").value = "";
+    document.getElementById("notes").value = "";
+
 }
 
-function auto_grow(element) 
+function autoGrow(element) 
 {
     element.style.height = "5px";
     element.style.height = (element.scrollHeight) + "px";
 }
 
-function checkTime(i) 
+function formatAMPM() 
 {
-    if (i < 10) {i = "0" + i};
-    return i; 
+    var hours = today.getHours();
+    var minutes = today.getMinutes();
+    var ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+    minutes = minutes < 10 ? '0'+ minutes : minutes;
+    var strTime = hours + ':' + minutes + ' ' + ampm;
+    return strTime;
 }
