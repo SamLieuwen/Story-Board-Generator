@@ -12,6 +12,8 @@ function append(e)
 
     i += 1;
 
+    localStorage.setItem("index", i);
+
     const storyBoard = document.getElementById("storyBoard");
     const story = document.createElement("div");
     story.setAttribute("id", `story-${i}`);
@@ -22,18 +24,36 @@ function append(e)
     const acceptanceCriteria = document.getElementById("acceptancecriteria").value;
     const notes = document.getElementById("notes").value;
 
-    story.innerText = formatAMPM() + "\n\nAs a " + asa + ", I want " + iwant + ", so that " + sothat + ".\n\nCriteria: \n" + acceptanceCriteria + "\n\nNotes: \n" + notes + "\n\n";
-    story.innerHTML += `<input type="button" value="Copy" onclick="copy('${story.innerHTML}')"> `
-
-    checkChange(story.innerHTML);
-    
-    if (hasChanged == true)
+    if (asa != "" && iwant != "" && sothat != "" && acceptanceCriteria != "")
     {
-        storyBoard.prepend(story);   
+        if (notes != "")
+        {
+            story.innerText = formatAMPM() + "\n\nAs a " + asa + ", I want " + iwant + ", so that " + sothat + 
+            ".\n\nCriteria: \n" + acceptanceCriteria + "\n\nNotes: \n" + notes + "\n\n";
+        }
+        else
+        {
+            story.innerText = formatAMPM() + "\n\nAs a " + asa + ", I want " + iwant + ", so that " + sothat + 
+            ".\n\nCriteria: \n" + acceptanceCriteria + "\n\n";
+        }
+        
+        story.innerHTML += `<button onclick="copy('${story.innerHTML}')">Copy</button> <button onclick="saltCard('${story.innerHTML}')">Salt</button>`;
+        
+        checkChange(story.innerHTML);
+
+        if (hasChanged == true)
+        {
+            storyBoard.prepend(story);
+        }
+        else
+        {
+            alert("Data hasn't changed or already exists");
+            i -= 1;
+        }
     }
     else
     {
-        alert("Data hasn't changed or already exists");
+        alert("Missing required data");
         i -= 1;
     }
 }
@@ -47,9 +67,7 @@ function checkChange(story)
     document.body.append(currentTemp);
     document.body.append(checkDefault);
     
-    const current = currentTemp.innerText.substring(formatAMPM().length + 2);
-
-    console.log(current);
+    const current = currentTemp.innerText.slice(formatAMPM().length + 2);
 
     for (let j = i - 1; j >= 0; j--)
     {   
@@ -59,10 +77,8 @@ function checkChange(story)
         previousTemp.innerHTML = storyPath.innerHTML;
         document.body.append(previousTemp);
 
-        const previousStory = previousTemp.innerText.substring(formatAMPM().length + 2);
+        const previousStory = previousTemp.innerText.slice(formatAMPM().length + 2);
         previousTemp.remove();
-
-        console.log(previousStory);
 
         if (current != previousStory)
         { hasChanged = true; }
@@ -84,6 +100,37 @@ function copy(story)
     navigator.clipboard.writeText(text);
 }
 
+function saltCard(story)
+{
+    let temp = document.createElement("div");
+    temp.innerHTML += story;
+    const text = temp.innerText;
+    temp.remove();
+
+    const asa = text.slice(12, text.indexOf("want") - 4);
+    const iwant = text.slice(text.indexOf("want") + 5, text.indexOf("that") - 5);
+    const sothat = text.slice(text.indexOf("that") + 5, text.indexOf("Criteria:") - 1)
+
+    document.getElementById("asa").value = asa;
+    document.getElementById("iwant").value = iwant;
+    document.getElementById("sothat").value = sothat;
+    
+    if (text.indexOf("Notes:") < 1)
+    {
+        const acceptanceCriteria = text.substring(text.indexOf("Criteria:") + 10);
+
+        document.getElementById("acceptancecriteria").value = acceptanceCriteria;
+    }
+    else
+    {
+        const acceptanceCriteria = text.substring(text.indexOf("Criteria:") + 10, text.indexOf("Notes:"));
+        const notes = text.substring(text.indexOf("Notes:") + 7);
+        
+        document.getElementById("acceptancecriteria").value = acceptanceCriteria;
+        document.getElementById("notes").value = notes;
+    }
+}
+
 function clearTextarea(e)
 {   
     e.preventDefault();
@@ -93,6 +140,7 @@ function clearTextarea(e)
 
 function autoGrow(element) 
 {
+    element.style.height = "0px";
     element.style.height = (element.scrollHeight) + "px";
 }
 
