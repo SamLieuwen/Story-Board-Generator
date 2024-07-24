@@ -13,7 +13,7 @@
 
 textarea {
     resize: none;
-    overflow:hidden;
+    overflow: hidden;
     width: 300px;
     min-height: 75px;
     max-height: 150px;
