@@ -1,3 +1,4 @@
+const today = new Date();
 let i = 0;
 let hasChanged;
 
@@ -11,7 +12,7 @@ function append(e)
 
     i += 1;
     hasChanged = false;
-    
+
     const storyBoard = document.getElementById("storyBoard");
     const story = document.createElement("div");
     story.setAttribute("id", `story-${i}`);
@@ -22,13 +23,18 @@ function append(e)
     const acceptanceCriteria = document.getElementById("acceptancecriteria").value;
     const notes = document.getElementById("notes").value;
 
-    story.innerText = "As a " + asa + ", I want " + iwant + ", so that " + sothat + ".\n\nCriteria: \n" + acceptanceCriteria + "\n\nNotes: \n" + notes + "\n\n";
-    story.innerHTML += `<input type="button" value="Copy" onclick="copy('${story.innerHTML}')"> `
+    let h = today.getHours();
+    let m = today.getMinutes();
+    m = checkTime(m);
 
+    story.innerText = "As a " + asa + ", I want " + iwant + ", so that " + sothat + ".\n\nCriteria: \n" + acceptanceCriteria + "\n\nNotes: \n" + notes + "\n\n";
+    
     checkChange(story.innerHTML);
     
     if (hasChanged == true)
     {
+        story.innerText = h + ":" + m + "\n\nAs a " + asa + ", I want " + iwant + ", so that " + sothat + ".\n\nCriteria: \n" + acceptanceCriteria + "\n\nNotes: \n" + notes + "\n\n";
+        story.innerHTML += `<input type="button" value="Copy" onclick="copy('${story.innerHTML}')"> `
         storyBoard.prepend(story);   
     }
     else
@@ -87,7 +93,14 @@ function clearTextArea(e)
     document.getElementById("form").reset();
 }
 
-function auto_grow(element) {
+function auto_grow(element) 
+{
     element.style.height = "5px";
     element.style.height = (element.scrollHeight) + "px";
-  }
+}
+
+function checkTime(i) 
+{
+    if (i < 10) {i = "0" + i};
+    return i; 
+}
