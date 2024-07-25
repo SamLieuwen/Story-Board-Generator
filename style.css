@@ -17,3 +17,11 @@ textarea {
     min-height: 75px;
     max-height: 150px;
 }
+
+.dataTables {
+    display: flex;
+    flex-wrap: wrap;
+}
+.dataTables > div {
+    margin: 5px;
+}

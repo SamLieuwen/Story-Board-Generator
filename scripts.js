@@ -20,7 +20,7 @@ function localNuggies()
             const oldStory = document.createElement("div");
             oldStory.setAttribute("id", `story-${i}`);
             oldStory.innerHTML += storedCards[j];
-
+            cards.push(oldStory.innerHTML);
             document.getElementById("storyBoard").prepend(oldStory);
         }
     }
