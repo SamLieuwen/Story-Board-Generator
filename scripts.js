@@ -1,10 +1,30 @@
 const today = new Date();
 let i = 0;
 let hasChanged;
+const cards = [];
 
 const checkDefault = document.createElement("div");
 checkDefault.setAttribute("id", `story-${0}`);
-checkDefault.innerText = formatAMPM() + "\n\nAs a , I want , so that .\n\nCriteria: \n\n\nNotes: \n\n\n";
+checkDefault.innerText = formatAMPM() + "\n\nAs a , I want , so that \n\nCriteria: \n\n\nNotes: \n\n\n";
+
+function localNuggies()
+{
+    const storedCards = JSON.parse(localStorage.getItem('stories'));
+
+    if (storedCards != null)
+    {
+        for (let j = 0; j < storedCards.length; j++)
+        {
+            i += 1;
+            
+            const oldStory = document.createElement("div");
+            oldStory.setAttribute("id", `story-${i}`);
+            oldStory.innerHTML += storedCards[j];
+
+            document.getElementById("storyBoard").prepend(oldStory);
+        }
+    }
+}
 
 function append(e)
 {
@@ -12,15 +32,14 @@ function append(e)
 
     i += 1;
 
-    localStorage.setItem("index", i);
-
     const storyBoard = document.getElementById("storyBoard");
+
     const story = document.createElement("div");
     story.setAttribute("id", `story-${i}`);
     
-    const asa = document.getElementById("asa").value;
-    const iwant = document.getElementById("iwant").value;
-    const sothat = document.getElementById("sothat").value;
+    const asa = document.getElementById("asa").value.trim();
+    const iwant = document.getElementById("iwant").value.trim();
+    const sothat = document.getElementById("sothat").value.trim();
     const acceptanceCriteria = document.getElementById("acceptancecriteria").value;
     const notes = document.getElementById("notes").value;
 
@@ -29,12 +48,12 @@ function append(e)
         if (notes != "")
         {
             story.innerText = formatAMPM() + "\n\nAs a " + asa + ", I want " + iwant + ", so that " + sothat + 
-            ".\n\nCriteria: \n" + acceptanceCriteria + "\n\nNotes: \n" + notes + "\n\n";
+            "\n\nAcceptance Criteria: \n" + acceptanceCriteria + "\n\nNotes: \n" + notes + "\n\n";
         }
         else
         {
             story.innerText = formatAMPM() + "\n\nAs a " + asa + ", I want " + iwant + ", so that " + sothat + 
-            ".\n\nCriteria: \n" + acceptanceCriteria + "\n\n";
+            "\n\nAcceptance Criteria: \n" + acceptanceCriteria + "\n\n";
         }
         
         story.innerHTML += `<button onclick="copy('${story.innerHTML}')">Copy</button> <button onclick="saltCard('${story.innerHTML}')">Salt</button>`;
@@ -44,6 +63,8 @@ function append(e)
         if (hasChanged == true)
         {
             storyBoard.prepend(story);
+            cards.push(story.innerHTML);
+            localStorage.setItem('stories', JSON.stringify(cards));
         }
         else
         {
@@ -107,9 +128,9 @@ function saltCard(story)
     const text = temp.innerText;
     temp.remove();
 
-    const asa = text.slice(12, text.indexOf("want") - 4);
+    const asa = text.slice(25, text.indexOf("want") - 4);
     const iwant = text.slice(text.indexOf("want") + 5, text.indexOf("that") - 5);
-    const sothat = text.slice(text.indexOf("that") + 5, text.indexOf("Criteria:") - 1)
+    const sothat = text.slice(text.indexOf("that") + 5, text.indexOf("Acceptance"))
 
     document.getElementById("asa").value = asa;
     document.getElementById("iwant").value = iwant;
@@ -117,13 +138,13 @@ function saltCard(story)
     
     if (text.indexOf("Notes:") < 1)
     {
-        const acceptanceCriteria = text.substring(text.indexOf("Criteria:") + 10);
+        const acceptanceCriteria = text.substring(text.indexOf("Acceptance") + 21);
 
         document.getElementById("acceptancecriteria").value = acceptanceCriteria;
     }
     else
     {
-        const acceptanceCriteria = text.substring(text.indexOf("Criteria:") + 10, text.indexOf("Notes:"));
+        const acceptanceCriteria = text.substring(text.indexOf("Acceptance") + 21, text.indexOf("Notes:"));
         const notes = text.substring(text.indexOf("Notes:") + 7);
         
         document.getElementById("acceptancecriteria").value = acceptanceCriteria;
@@ -146,12 +167,14 @@ function autoGrow(element)
 
 function formatAMPM() 
 {
+    var date = today.toDateString();
+    date = date.slice(4);
     var hours = today.getHours();
     var minutes = today.getMinutes();
     var ampm = hours >= 12 ? 'pm' : 'am';
     hours = hours % 12;
     hours = hours ? hours : 12;
     minutes = minutes < 10 ? '0'+ minutes : minutes;
-    var strTime = hours + ':' + minutes + ' ' + ampm;
+    var strTime = date + ', ' + hours + ':' + minutes + ' ' + ampm;
     return strTime;
 }
