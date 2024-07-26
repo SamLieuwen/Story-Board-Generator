@@ -9,6 +9,9 @@ checkDefault.innerText = formatAMPM() + "\n\nAs a , I want , so that \n\nCriteri
 
 function localNuggies()
 {
+    i = 0;
+    
+    const storyBoard = document.getElementById("storyBoard");
     const storedCards = JSON.parse(localStorage.getItem('stories'));
 
     if (storedCards != null)
@@ -16,12 +19,11 @@ function localNuggies()
         for (let j = 0; j < storedCards.length; j++)
         {
             i += 1;
-            
-            const oldStory = document.createElement("div");
-            oldStory.setAttribute("id", `story-${i}`);
-            oldStory.innerHTML += storedCards[j];
-            cards.push(oldStory.innerHTML);
-            document.getElementById("storyBoard").prepend(oldStory);
+            const storedStory = document.createElement("div");
+            storedStory.setAttribute("id", `story-${i}`);
+            storedStory.innerHTML += storedCards[j];
+            cards.push(storedCards[j]);
+            storyBoard.prepend(storedStory);
         }
     }
 }
@@ -36,6 +38,7 @@ function append(e)
 
     const story = document.createElement("div");
     story.setAttribute("id", `story-${i}`);
+    const id = story.getAttribute("id");
     
     const asa = document.getElementById("asa").value.trim();
     const iwant = document.getElementById("iwant").value.trim();
@@ -56,15 +59,16 @@ function append(e)
             "\n\nAcceptance Criteria: \n" + acceptanceCriteria + "\n\n";
         }
         
-        story.innerHTML += `<button onclick="copy('${story.innerHTML}')">Copy</button> <button onclick="saltCard('${story.innerHTML}')">Salt</button>`;
+        story.innerHTML += `<button onclick="copy('${story.innerHTML}')">Copy</button> <button onclick="saltCard('${story.innerHTML}')">Salt</button> <button onclick="deleteCard('${id}')">Delete</button>`;
         
         checkChange(story.innerHTML);
 
         if (hasChanged == true)
-        {
+        {   
             storyBoard.prepend(story);
             cards.push(story.innerHTML);
             localStorage.setItem('stories', JSON.stringify(cards));
+
         }
         else
         {
@@ -149,6 +153,33 @@ function saltCard(story)
         
         document.getElementById("acceptancecriteria").value = acceptanceCriteria;
         document.getElementById("notes").value = notes;
+    }
+}
+
+function deleteCard(id)
+{
+    i = 0;
+    
+    const identity = id;
+    let storyBoard = document.getElementById("storyBoard");
+
+    placement = cards.indexOf(document.getElementById(identity).innerHTML);
+    cards.splice(placement, placement + 1);
+    storyBoard.innerHTML = "";
+
+    localStorage.clear();
+    localStorage.setItem('stories', JSON.stringify(cards));
+
+    if (cards != null)
+    {
+        for (let j = 0; j < cards.length; j++)
+        {
+            i += 1;
+            const storedStory = document.createElement("div");
+            storedStory.setAttribute("id", `story-${i}`);
+            storedStory.innerHTML += cards[j];
+            storyBoard.prepend(storedStory);
+        }
     }
 }
 
