@@ -1,29 +1,31 @@
 const today = new Date();
 let i = 0;
 let hasChanged;
-const cards = [];
+let stories = [];
 
 const checkDefault = document.createElement("div");
 checkDefault.setAttribute("id", `story-${0}`);
 checkDefault.innerText = formatAMPM() + "\n\nAs a , I want , so that \n\nCriteria: \n\n\nNotes: \n\n\n";
 
 function localNuggies()
-{
-    i = 0;
-    
+{   
     const storyBoard = document.getElementById("storyBoard");
     const storedCards = JSON.parse(localStorage.getItem('stories'));
 
+    stories = [];
+
     if (storedCards != null)
-    {
+    {   
+        i = 0;
         for (let j = 0; j < storedCards.length; j++)
         {
             i += 1;
             const storedStory = document.createElement("div");
             storedStory.setAttribute("id", `story-${i}`);
             storedStory.innerHTML += storedCards[j];
-            cards.push(storedCards[j]);
             storyBoard.prepend(storedStory);
+            
+            stories.push(storedCards[j]);
         }
     }
 }
@@ -34,12 +36,6 @@ function append(e)
 
     i += 1;
 
-    const storyBoard = document.getElementById("storyBoard");
-
-    const story = document.createElement("div");
-    story.setAttribute("id", `story-${i}`);
-    const id = story.getAttribute("id");
-    
     const asa = document.getElementById("asa").value.trim();
     const iwant = document.getElementById("iwant").value.trim();
     const sothat = document.getElementById("sothat").value.trim();
@@ -48,6 +44,11 @@ function append(e)
 
     if (asa != "" && iwant != "" && sothat != "" && acceptanceCriteria != "")
     {
+        const storyBoard = document.getElementById("storyBoard");
+        const story = document.createElement("div");
+        story.setAttribute("id", `story-${i}`);
+        id = story.getAttribute("id");
+        
         if (notes != "")
         {
             story.innerText = formatAMPM() + "\n\nAs a " + asa + ", I want " + iwant + ", so that " + sothat + 
@@ -66,9 +67,8 @@ function append(e)
         if (hasChanged == true)
         {   
             storyBoard.prepend(story);
-            cards.push(story.innerHTML);
-            localStorage.setItem('stories', JSON.stringify(cards));
-
+            stories.push(story.innerHTML);
+            localStorage.setItem('stories', JSON.stringify(stories));
         }
         else
         {
@@ -127,12 +127,12 @@ function copy(story)
 
 function saltCard(story)
 {
-    let temp = document.createElement("div");
+    const temp = document.createElement("div");
     temp.innerHTML += story;
     const text = temp.innerText;
     temp.remove();
 
-    const asa = text.slice(25, text.indexOf("want") - 4);
+    const asa = text.slice(26, text.indexOf("want") - 4);
     const iwant = text.slice(text.indexOf("want") + 5, text.indexOf("that") - 5);
     const sothat = text.slice(text.indexOf("that") + 5, text.indexOf("Acceptance"))
 
@@ -157,30 +157,28 @@ function saltCard(story)
 }
 
 function deleteCard(id)
-{
+{   
     i = 0;
     
     const identity = id;
     let storyBoard = document.getElementById("storyBoard");
 
-    placement = cards.indexOf(document.getElementById(identity).innerHTML);
-    cards.splice(placement, placement + 1);
+    placement = stories.indexOf(document.getElementById(identity).innerHTML);
+    stories.splice(placement, 1);
+    
     storyBoard.innerHTML = "";
-
     localStorage.clear();
-    localStorage.setItem('stories', JSON.stringify(cards));
+    localStorage.setItem('stories', JSON.stringify(stories));
 
-    if (cards != null)
+    for (let j = 1; j <= stories.length; j++)
     {
-        for (let j = 0; j < cards.length; j++)
-        {
-            i += 1;
-            const storedStory = document.createElement("div");
-            storedStory.setAttribute("id", `story-${i}`);
-            storedStory.innerHTML += cards[j];
-            storyBoard.prepend(storedStory);
-        }
+        i += 1;
+        const storedStory = document.createElement("div");
+        storedStory.setAttribute("id", `story-${j}`);
+        storedStory.innerHTML += stories[j];
+        storyBoard.prepend(storedStory);
     }
+    
 }
 
 function clearTextarea(e)
