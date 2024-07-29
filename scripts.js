@@ -158,27 +158,21 @@ function saltCard(story)
 
 function deleteCard(id)
 {   
-    i = 0;
-    
-    const identity = id;
     let storyBoard = document.getElementById("storyBoard");
 
-    placement = stories.indexOf(document.getElementById(identity).innerHTML);
-    stories.splice(placement, 1);
-    
+    for (let i = 0; i < stories.length; i++)
+    {
+        if (stories[i].indexOf(id) != -1)
+        {
+            stories.splice(i, 1);
+        }
+    }
+
     storyBoard.innerHTML = "";
     localStorage.clear();
     localStorage.setItem('stories', JSON.stringify(stories));
 
-    for (let j = 1; j <= stories.length; j++)
-    {
-        i += 1;
-        const storedStory = document.createElement("div");
-        storedStory.setAttribute("id", `story-${j}`);
-        storedStory.innerHTML += stories[j];
-        storyBoard.prepend(storedStory);
-    }
-    
+    localNuggies();
 }
 
 function clearTextarea(e)
