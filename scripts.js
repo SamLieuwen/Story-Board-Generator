@@ -132,7 +132,7 @@ function saltCard(story)
     const text = temp.innerText;
     temp.remove();
 
-    const asa = text.slice(26, text.indexOf("want") - 4);
+    const asa = text.slice(25, text.indexOf("want") - 4);
     const iwant = text.slice(text.indexOf("want") + 5, text.indexOf("that") - 5);
     const sothat = text.slice(text.indexOf("that") + 5, text.indexOf("Acceptance"))
 
